@@ -145,8 +145,9 @@ class GMFlow(nn.Module):
             flow = flow + flow_pred if flow is not None else flow_pred
 
             # upsample to the original resolution for supervison
-            flow_bilinear = self.upsample_flow(flow, None, bilinear=True, upsample_factor=upsample_factor)
-            flow_preds.append(flow_bilinear)
+            if self.training:  # only need to upsample intermediate flow predictions at training time
+                flow_bilinear = self.upsample_flow(flow, None, bilinear=True, upsample_factor=upsample_factor)
+                flow_preds.append(flow_bilinear)
 
             # flow propagation with self-attn
             if pred_bidir_flow and scale_idx == 0:
@@ -155,8 +156,9 @@ class GMFlow(nn.Module):
                                           local_window_attn=prop_radius > 0,
                                           local_window_radius=prop_radius)
 
-            # bilinear upsampling exclude the last one
-            if scale_idx < self.num_scales - 1:
+            # bilinear upsampling except the last one
+            # only need to upsample intermediate flow predictions at training time
+            if self.training and scale_idx < self.num_scales - 1:
                 flow_up = self.upsample_flow(flow, feature0, bilinear=True, upsample_factor=upsample_factor)
             else:
                 flow_up = self.upsample_flow(flow, feature0)
