@@ -156,13 +156,12 @@ class GMFlow(nn.Module):
                                           local_window_attn=prop_radius > 0,
                                           local_window_radius=prop_radius)
 
-            # bilinear upsampling except the last one
-            # only need to upsample intermediate flow predictions at training time
-            if scale_idx < self.num_scales - 1:
-                if self.training:
-                    flow_up = self.upsample_flow(flow, feature0, bilinear=True, upsample_factor=upsample_factor)
-                    flow_preds.append(flow_up)
-            else:
+            # bilinear upsampling at training time except the last one
+            if self.training and scale_idx < self.num_scales - 1:
+                flow_up = self.upsample_flow(flow, feature0, bilinear=True, upsample_factor=upsample_factor)
+                flow_preds.append(flow_up)
+
+            if scale_idx == self.num_scales - 1:
                 flow_up = self.upsample_flow(flow, feature0)
                 flow_preds.append(flow_up)
 
