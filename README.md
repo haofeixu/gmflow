@@ -158,10 +158,11 @@ and then access [http://localhost:6006](http://localhost:6006) in your browser.
 If you find our work useful in your research, please consider citing our paper:
 
 ```
-@article{xu2022gmflow,
+@inproceedings{xu2022gmflow,
   title={GMFlow: Learning Optical Flow via Global Matching},
   author={Xu, Haofei and Zhang, Jing and Cai, Jianfei and Rezatofighi, Hamid and Tao, Dacheng},
-  journal={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={8121-8130},
   year={2022}
 }
 ```
