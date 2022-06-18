@@ -8,6 +8,12 @@ Authors: [Haofei Xu](https://scholar.google.com/citations?user=NhUwq_8AAAAJ), [J
 
 
 
+
+https://user-images.githubusercontent.com/19343475/174445324-fff78a74-03fd-4a95-bdcd-a66fcde1ee26.mp4
+
+
+
+
 We streamline the optical flow estimation pipeline by reformulating optical flow as a **global matching** problem.
 
 
