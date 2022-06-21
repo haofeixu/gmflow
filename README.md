@@ -8,6 +8,10 @@ Authors: [Haofei Xu](https://scholar.google.com/citations?user=NhUwq_8AAAAJ), [J
 
 
 
+**A [video introduction](https://www.bilibili.com/video/BV18A4y1R7PL) of GMFlow is available at bilibili!**
+
+
+
 https://user-images.githubusercontent.com/19343475/174446408-520b8a6c-9714-4ff3-978c-98e23ab29c1f.mp4
 
 
