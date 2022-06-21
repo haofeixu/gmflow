@@ -611,16 +611,13 @@ def inference_on_dir(model,
         image1 = torch.from_numpy(image1).permute(2, 0, 1).float()
         image2 = torch.from_numpy(image2).permute(2, 0, 1).float()
 
-        if test_id == 0:
-            flow_prev = None
-
         if inference_size is None:
             padder = InputPadder(image1.shape, padding_factor=padding_factor)
             image1, image2 = padder.pad(image1[None].cuda(), image2[None].cuda())
         else:
             image1, image2 = image1[None].cuda(), image2[None].cuda()
 
-        # Resize before inference
+        # resize before inference
         if inference_size is not None:
             assert isinstance(inference_size, list) or isinstance(inference_size, tuple)
             ori_size = image1.shape[-2:]
@@ -638,7 +635,7 @@ def inference_on_dir(model,
 
         flow_pr = results_dict['flow_preds'][-1]  # [B, 2, H, W]
 
-        # Resize back
+        # resize back
         if inference_size is not None:
             flow_pr = F.interpolate(flow_pr, size=ori_size, mode='bilinear',
                                     align_corners=True)
@@ -652,23 +649,34 @@ def inference_on_dir(model,
 
         output_file = os.path.join(output_path, os.path.basename(filenames[test_id])[:-4] + '_flow.png')
 
-        # Save vis flow
+        # save vis flow
         save_vis_flow_tofile(flow, output_file)
 
         # also predict backward flow
         if pred_bidir_flow:
             assert flow_pr.size(0) == 2  # [2, H, W, 2]
-            flow_bwd = padder.unpad(flow_pr[1]).permute(1, 2, 0).cpu().numpy()  # [H, W, 2]
+
+            if inference_size is None:
+                flow_bwd = padder.unpad(flow_pr[1]).permute(1, 2, 0).cpu().numpy()  # [H, W, 2]
+            else:
+                flow_bwd = flow_pr[1].permute(1, 2, 0).cpu().numpy()  # [H, W, 2]
 
             output_file = os.path.join(output_path, os.path.basename(filenames[test_id])[:-4] + '_flow_bwd.png')
 
-            # Save vis flow
+            # save vis flow
             save_vis_flow_tofile(flow_bwd, output_file)
 
             # forward-backward consistency check
             # occlusion is 1
             if fwd_bwd_consistency_check:
-                fwd_occ, bwd_occ = forward_backward_consistency_check(flow_pr[:1], flow_pr[1:])  # [1, H, W] float
+                if inference_size is None:
+                    fwd_flow = padder.unpad(flow_pr[0]).unsqueeze(0)  # [1, 2, H, W]
+                    bwd_flow = padder.unpad(flow_pr[1]).unsqueeze(0)  # [1, 2, H, W]
+                else:
+                    fwd_flow = flow_pr[0].unsqueeze(0)
+                    bwd_flow = flow_pr[1].unsqueeze(0)
+
+                fwd_occ, bwd_occ = forward_backward_consistency_check(fwd_flow, bwd_flow)  # [1, H, W] float
 
                 fwd_occ_file = os.path.join(output_path, os.path.basename(filenames[test_id])[:-4] + '_occ.png')
                 bwd_occ_file = os.path.join(output_path, os.path.basename(filenames[test_id])[:-4] + '_occ_bwd.png')
