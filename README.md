@@ -1,5 +1,6 @@
 # GMFlow
 
+
 Official PyTorch implementation of paper:
 
 [**GMFlow: Learning Optical Flow via Global Matching**](https://arxiv.org/abs/2111.13680), **CVPR 2022, Oral**
@@ -7,8 +8,11 @@ Official PyTorch implementation of paper:
 Authors: [Haofei Xu](https://scholar.google.com/citations?user=NhUwq_8AAAAJ), [Jing Zhang](https://scholar.google.com.hk/citations?user=9jH5v74AAAAJ), [Jianfei Cai](https://jianfei-cai.github.io/), [Hamid Rezatofighi](https://scholar.google.com/citations?user=VxAuxMwAAAAJ), [Dacheng Tao](https://scholar.google.com/citations?user=RwlJNLcAAAAJ)
 
 
+**11/13/2022 Update: Check out our new work: [Unifying Flow, Stereo and Depth Estimation](https://haofeixu.github.io/unimatch/) and code: [unimatch](https://github.com/autonomousvision/unimatch) for extending GMFlow to stereo and depth tasks. [More pretrained GMFlow models](https://github.com/autonomousvision/unimatch/blob/master/MODEL_ZOO.md) are also released.**
 
-**A [video introduction](https://www.bilibili.com/video/BV18A4y1R7PL) of GMFlow is available at bilibili!**
+
+
+**A [video introduction](https://www.bilibili.com/video/BV18A4y1R7PL) (in Chinese) of GMFlow is available at bilibili!**
 
 
 
