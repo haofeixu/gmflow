@@ -1,0 +1,11 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gmflow"
+version = "1.0.0"
+
+[tool.setuptools.package-dir]
+gmflow = "gmflow"
+utils = "utils"
